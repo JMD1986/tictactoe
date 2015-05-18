@@ -24,8 +24,14 @@ class Game
 
   def play
     how_many_players
+    if @number_of_players == 2
+      start_playing
+    elsif @number_of_players == 1
+      play_vs_computer
+    else
+      puts "only 1 or 2 players please"
+    end
     greeting_and_names
-    start_playing
     determine_winner
     game_finished
   end
@@ -70,6 +76,26 @@ class Game
     @player_2.name = gets.chomp
     @player_2.sym = 'O'
   end
+  def play_vs_computer
+    puts "-----{}-----{}-----{}-----{}---"
+    puts "|         tic tac toe         |"
+    puts "{}-----{}-----{}-----{}-----{}-"
+    puts "|        the board is         |"
+    puts "|        numbered 1-9         |"
+    puts "|          like this          |"
+    puts "|                             |"
+    puts "|          1 | 2 | 3          |"
+    puts "|          4 | 5 | 6          |"
+    puts "|          7 | 8 | 9          |"
+    puts "|                             |"
+    puts "-----{}-----{}-----{}-----{}---"
+    puts "You are playing against the most advanced machine to ever play tic tac toe. His name is Dave."
+    @player_2.name = computer_player
+    @player_2.sym = 'O'
+    puts "What is your name?"
+    player_1.name = gets.chomp
+    player_1.sym = 'X'
+  end
 
   def start_playing
     take_turns until game_over
@@ -109,7 +135,7 @@ class Game
   end
 
   #this one is a doozy. we go threw the list of all possible winning combinations
-  #and declare one of the players a winner
+  #and declare one of the players a winner if he has played his symbol on those squares
   def check_for_win(player)
     $winning_moves.each do |n|
       @winner = player if n.all? { |board_space| @grid.board[board_space] == player.sym }
@@ -134,5 +160,4 @@ class Game
     end
   end
     Player = Struct.new(:name, :sym)
-
 end
